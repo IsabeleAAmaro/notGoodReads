@@ -1,0 +1,401 @@
+.sign-up-tela {
+  background-color: #f2e6e8;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.sign-up-tela .div-2 {
+  background-color: #f2e6e8;
+  height: 1080px;
+  overflow: hidden;
+  position: relative;
+  width: 1920px;
+}
+
+.sign-up-tela .frame-3 {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  gap: 58px;
+  height: 436px;
+  left: 292px;
+  position: absolute;
+  top: 297px;
+  width: 410px;
+}
+
+.sign-up-tela .social-button {
+  all: unset;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.sign-up-tela .social-button:hover {
+  background-color: #f5f5f5;
+}
+
+.sign-up-tela .frame-4 {
+  align-items: flex-start;
+  align-self: stretch;
+  background-color: #ffffff;
+  border: 1px solid;
+  border-color: #d9d9d9;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100px;
+  justify-content: space-around;
+  overflow: hidden;
+  padding: 4px 20px;
+  position: relative;
+  width: 100%;
+}
+
+.sign-up-tela .frame-5 {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  height: 36px;
+  position: relative;
+  width: 172px;
+}
+
+.sign-up-tela .google {
+  height: 50px;
+  margin-bottom: -7.00px;
+  margin-top: -7.00px;
+  position: relative;
+  width: 52.7px;
+}
+
+.sign-up-tela .text-wrapper-3 {
+  color: #000000;
+  font-family: "IBM Plex Mono", Helvetica;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-right: -180.70px;
+  position: relative;
+  width: 290px;
+}
+
+.sign-up-tela .frame-6 {
+  align-items: flex-start;
+  align-self: stretch;
+  background-color: #ffffff;
+  border: 1px solid;
+  border-color: #d9d9d9;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 95px;
+  justify-content: space-around;
+  overflow: hidden;
+  padding: 4px 20px;
+  position: relative;
+  width: 100%;
+}
+
+.sign-up-tela .icon-instance-node {
+  height: 50px !important;
+  margin-bottom: -7.00px !important;
+  margin-top: -7.00px !important;
+  position: relative !important;
+  width: 50px !important;
+}
+
+.sign-up-tela .text-wrapper-4 {
+  color: #000000;
+  font-family: "IBM Plex Mono", Helvetica;
+  font-size: 23px;
+  font-weight: 500;
+  height: 30px;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-right: -178.00px;
+  position: relative;
+  width: 290px;
+}
+
+.sign-up-tela .text-wrapper-5 {
+  color: #000000;
+  font-family: "IBM Plex Mono", Helvetica;
+  font-size: 22px;
+  font-weight: 500;
+  height: 30px;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-right: -192.00px;
+  position: relative;
+  text-align: center;
+  width: 304px;
+}
+
+.sign-up-tela .frame-7 {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  left: 1106px;
+  position: absolute;
+  top: 229px;
+  width: 679px;
+}
+
+.sign-up-tela .frame-55 {
+  height: 136px !important;
+  width: 580px !important;
+}
+
+.sign-up-tela .frame-instance {
+  padding: 10px 0px !important;
+}
+
+.sign-up-tela .frame-55-instance {
+  font-family: "IBM Plex Mono", Helvetica !important;
+  font-size: 32px !important;
+  font-weight: 200 !important;
+}
+
+.sign-up-tela .design-component-instance-node {
+  align-self: stretch !important;
+  background-color: #ffffff !important;
+  border-color: #111111 !important;
+  flex: 1 !important;
+  flex-grow: 1 !important;
+  height: unset !important;
+  margin-bottom: -1.00px !important;
+  margin-left: -1.00px !important;
+  margin-right: -1.00px !important;
+  width: 100% !important;
+}
+
+.sign-up-tela .frame-8 {
+  margin-bottom: unset !important;
+  margin-top: unset !important;
+}
+
+.sign-up-tela .frame-9 {
+  color: #d9d9d9 !important;
+  font-family: "IBM Plex Mono", Helvetica !important;
+  font-size: 20px !important;
+}
+
+.sign-up-tela .frame-10 {
+  align-self: stretch !important;
+  background-color: #ffffff !important;
+  border-color: #111111 !important;
+  flex: 1 !important;
+  flex-grow: 1 !important;
+  height: unset !important;
+  width: 100% !important;
+}
+
+.sign-up-tela .password-validation-instance {
+  flex: 0 0 auto !important;
+  width: 548px !important;
+}
+
+.sign-up-tela .password-validation-2 {
+  width: 14px !important;
+}
+
+.sign-up-tela .password-validation-3 {
+  color: #000000 !important;
+  font-family: "IBM Plex Mono", Helvetica !important;
+  font-size: 16px !important;
+  font-style: italic !important;
+  font-weight: 300 !important;
+  letter-spacing: 0 !important;
+  line-height: 25.6px !important;
+}
+
+.sign-up-tela .button-instance {
+  background-color: #005b42 !important;
+  display: flex !important;
+  flex: 0 0 auto !important;
+  width: 314px !important;
+}
+
+.sign-up-tela .button-3 {
+  color: #ffffff !important;
+  font-family: "IBM Plex Mono", Helvetica !important;
+  font-size: 27px !important;
+  font-style: unset !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  line-height: 37px !important;
+}
+
+.sign-up-tela .by-using-blablabla {
+  align-self: stretch;
+  color: #605d67;
+  font-family: "IBM Plex Mono", Helvetica;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 22.4px;
+  position: relative;
+  text-align: center;
+}
+
+.sign-up-tela .span {
+  color: #605d67;
+  font-family: "IBM Plex Mono", Helvetica;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 22.4px;
+}
+
+.sign-up-tela .text-wrapper-6 {
+  font-weight: 600;
+}
+
+.sign-up-tela .heroicons-outline {
+  height: 40px !important;
+  left: 574px !important;
+  position: absolute !important;
+  top: 415px !important;
+  width: 40px !important;
+}
+
+.sign-up-tela .overlap-group {
+  height: 226px;
+  left: -3px;
+  position: absolute;
+  top: 0;
+  width: 1923px;
+}
+
+.sign-up-tela .frame-11 {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 33px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1923px;
+}
+
+.sign-up-tela .header-light-left {
+  align-self: stretch;
+  height: 99px;
+  position: relative;
+  width: 100%;
+}
+
+.sign-up-tela .frame-12 {
+  align-items: flex-start;
+  display: inline-flex;
+  gap: 52px;
+  left: 100px;
+  position: absolute;
+  top: 29px;
+}
+
+.sign-up-tela .button-text-instance {
+  flex: 0 0 auto !important;
+  padding: 10px 0px !important;
+}
+
+.sign-up-tela .button-text-2 {
+  color: #131313 !important;
+  font-family: "IBM Plex Mono", Helvetica !important;
+  font-style: italic !important;
+  font-weight: 500 !important;
+  white-space: unset !important;
+}
+
+.sign-up-tela .button-wrapper {
+  all: unset;
+  align-items: center;
+  background-color: #005b42;
+  border-radius: 6px;
+  box-sizing: border-box;
+  display: inline-flex;
+  gap: 10px;
+  justify-content: center;
+  left: 1707px;
+  padding: 10px 24px;
+  position: absolute;
+  top: 34px;
+}
+
+.sign-up-tela .button-4 {
+  all: unset;
+  box-sizing: border-box;
+  color: #ffffff;
+  font-family: "IBM Plex Mono", Helvetica;
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: -1.00px;
+  position: relative;
+  width: fit-content;
+}
+
+.sign-up-tela .button-5 {
+  all: unset;
+  align-items: center;
+  border: 1px solid;
+  border-color: #131313;
+  border-radius: 6px;
+  box-sizing: border-box;
+  display: inline-flex;
+  gap: 10px;
+  justify-content: center;
+  left: 1533px;
+  padding: 10px 24px;
+  position: absolute;
+  top: 34px;
+}
+
+.sign-up-tela .button-6 {
+  all: unset;
+  box-sizing: border-box;
+  color: #131313;
+  font-family: "IBM Plex Mono", Helvetica;
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: normal;
+  margin-top: -1.00px;
+  position: relative;
+  width: fit-content;
+}
+
+.sign-up-tela .text-wrapper-7 {
+  -webkit-text-stroke: 1px #005b42;
+  align-self: stretch;
+  color: #000000;
+  font-family: "IBM Plex Mono", Helvetica;
+  font-size: 64px;
+  font-weight: 300;
+  height: 94px;
+  letter-spacing: 0;
+  line-height: 79.2px;
+  margin-left: -1.00px;
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.sign-up-tela .logo-transparent {
+  height: 132px;
+  left: 863px;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  width: 164px;
+}
