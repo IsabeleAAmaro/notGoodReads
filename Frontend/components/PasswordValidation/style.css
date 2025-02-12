@@ -40,3 +40,11 @@
   flex: 0 0 auto !important;
   width: 100% !important;
 }
+
+.password-validation .progress-bar.partial {
+  background-color: #FFA500;
+}
+
+.password-validation .progress-bar.complete {
+  background-color: #4CAF50;
+}

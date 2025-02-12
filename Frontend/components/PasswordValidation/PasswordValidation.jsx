@@ -19,18 +19,21 @@ export const PasswordValidation = ({
   const hasSymbol = /[!@#$%^&*+]/.test(password);
 
   const validConditions = [hasEightChars, hasNumber, hasSymbol].filter(Boolean).length;
-  const progressWidth = validConditions === 0 ? "8px" : `${(validConditions / 3) * 100}%`;
-  const progressColor = validConditions === 3 ? "#4CAF50" : "#605d67";
+  const progressWidth = `${(validConditions / 3) * 100}%`;
+
+  const getProgressClass = () => {
+    if (validConditions === 0) return "";
+    if (validConditions === 3) return "complete";
+    return "partial";
+  };
 
   return (
     <div className={`password-validation ${className}`}>
       <div className="progress">
         <div
-          className={`progress-bar ${progressClassName}`}
+          className={`progress-bar ${getProgressClass()} ${progressClassName}`}
           style={{
             width: progressWidth,
-            backgroundColor: progressColor,
-            transition: "width 0.3s ease, background-color 0.3s ease"
           }}
         />
       </div>
