@@ -1,0 +1,82 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 100px;
+  height: 99px;
+  width: 100%;
+  background-color: #f3f9f7;
+}
+
+@media (max-width: 991px) {
+  .header {
+    padding: 0 40px;
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: 0 20px;
+  }
+}
+
+.navLinks {
+  display: flex;
+  gap: 52px;
+  align-items: center;
+}
+
+@media (max-width: 991px) {
+  .navLinks {
+    gap: 30px;
+  }
+}
+
+@media (max-width: 640px) {
+  .navLinks {
+    display: none;
+  }
+}
+
+.navItem {
+  color: #131313;
+  padding: 10px 0;
+  cursor: pointer;
+  font: italic 16px "Fragment Mono", monospace;
+}
+
+.logo {
+  width: 164px;
+  height: 156px;
+  object-fit: contain;
+  margin-right: 440px;
+}
+
+@media (max-width: 991px) {
+  .logo {
+    margin-right: 200px;
+  }
+}
+
+@media (max-width: 640px) {
+  .logo {
+    width: 120px;
+    height: auto;
+  }
+}
+
+.logoutButton {
+  color: #131313;
+  padding: 10px 24px;
+  border: 1px solid #131313;
+  border-radius: 6px;
+  cursor: pointer;
+  font: italic 600 16px "IBM Plex Mono", monospace;
+}
+
+@media (max-width: 640px) {
+  .logoutButton {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
