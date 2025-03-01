@@ -12,9 +12,8 @@
 
 .button-text .button-2 {
   color: var(--colorsneutralblack);
-  font-family: "Inter", Helvetica;
+  font: italic 700 16px "IBM Plex Mono", monospace;
   font-size: 16px;
-  font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
   margin-top: -1.00px;

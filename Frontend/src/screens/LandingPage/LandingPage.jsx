@@ -2,12 +2,12 @@ import { Button } from "@mui/material";
 import Icon from "@mui/material/Icon";
 import { ButtonText } from "Frontend/components/ButtonText/index.js";
 import React from "react";
-import combinedShapeCopy from "./combined-shape-copy.svg";
-import githubSeeklogo1 from "./github-seeklogo-1.png";
-import logoTransparent1 from "./logo-transparent-1.png";
-import mask from "./mask.svg";
+import combinedShapeCopy from "../../../assets/img/combined-shape-copy.svg";
+import githubSeeklogo1 from "../../../assets/img/github-seeklogo-1.png";
+import logoTransparent1 from "../../../assets/img/logo-transparent-1.png";
+import mask from "../../../assets/img/mask.svg";
 import "./style.css";
-import transhumansNewBeginnings1 from "./transhumans-new-beginnings-1.png";
+import transhumansNewBeginnings1 from "../../../assets/img/transhumans-new-beginnings-1.png";
 
 export const LandingPageCom = () => {
   return (

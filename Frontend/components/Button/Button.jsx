@@ -1,23 +1,15 @@
-/*
-We're constantly improving the code you see.
-Please share your feedback here: https://form.asana.com/?k=uvp-HPgd3_hyoXRBw1IcNg&d=1152665201300829
-*/
+import React from 'react';
+import styles from './Button.module.css';
 
-import React from "react";
-import "./style.css";
+interface ButtonProps {
+  variant: 'signIn' | 'signUp';
+  children: React.ReactNode;
+}
 
-export const Button = ({
-  property1,
-  property2,
-  property3,
-  property4,
-  className,
-  divClassName,
-  text = "Button",
-}) => {
+export const Button: React.FC<ButtonProps> = ({ variant, children }) => {
   return (
-    <button className={`button ${className}`}>
-      <div className={`text-wrapper-2 ${divClassName}`}>{text}</div>
+    <button className={`${styles.button} ${styles[variant]}`}>
+      {children}
     </button>
   );
 };
