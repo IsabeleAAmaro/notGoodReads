@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { Button } from "../../../components/Button/index.js";
-import { ButtonText } from "../../../components/ButtonText/index.js";
+import { ButtonText } from "../../../components/ButtonText/ButtonText.jsx";
 import { Frame } from "../../../components/Frame/index.js";
 import { PasswordValidation } from "../../../components/PasswordValidation/index.js";
 import { HeroiconsOutlineEye } from "../../../assets/HeroiconsOutlineEye/index.js";
