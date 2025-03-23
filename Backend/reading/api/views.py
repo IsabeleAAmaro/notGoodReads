@@ -2,8 +2,8 @@ from rest_framework import generics, permissions, filters
 from rest_framework.response import Response
 
 from ..models import Book
-from ..serializers import BookSerializer
-from ...users.permissions import IsOwner
+from reading.serializers import BookSerializer
+from users.permissions import IsOwner
 from django.db.models import Count, Avg, Q
 
 

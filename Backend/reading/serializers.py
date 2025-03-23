@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Book
-from ..users.models import CustomUser
+# from Backend.users.models import CustomUser
+from users.models import CustomUser  # Caminho absoluto
 
 
 class BookSerializer(serializers.ModelSerializer):
@@ -17,4 +18,4 @@ class BookSerializer(serializers.ModelSerializer):
     def validate_rating(self, value):
         if value is not None and (value < 0.5 or value > 5.0):
             raise serializers.ValidationError("Avaliação deve ser entre 0.5 e 5.0")
-        return round(value * 2) / 2  # Força múltiplos de 0.5
+        return round(value * 2) / 2
