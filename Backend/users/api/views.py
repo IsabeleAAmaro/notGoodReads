@@ -6,6 +6,8 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework import status
 from rest_framework_simplejwt.views import TokenObtainPairView
+
+from ..permissions import IsOwner
 from ..serializers import CustomUserSerializer, CustomTokenObtainPairSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -13,11 +15,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
+from rest_framework.throttling import AnonRateThrottle
 
 
 class RegisterView(APIView):
 
-    # TO DO: REVER ESSE POST?
     def post(self, request):
         serializer = CustomUserSerializer(data=request.data)
         if serializer.is_valid():
@@ -32,6 +34,7 @@ class RegisterView(APIView):
 # Login
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+    throttle_classes = [AnonRateThrottle]
 
 
 class LogoutView(APIView):
@@ -53,7 +56,7 @@ class LogoutView(APIView):
 
 class UserProfileView(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsOwner]
 
     def get(self, request):
         serializer = CustomUserSerializer(request.user)
@@ -61,7 +64,10 @@ class UserProfileView(APIView):
 
     def patch(self, request):
         serializer = CustomUserSerializer(
-            request.user, data=request.data, partial=True
+            request.user,
+            data=request.data,
+            partial=True,
+            context={'request': request}
         )
         if serializer.is_valid():
             serializer.save()
@@ -80,3 +86,15 @@ class DeleteUserView(APIView):
             {"message": "Usuário deletado com sucesso"},
             status=status.HTTP_204_NO_CONTENT
         )
+
+
+"""  
+class ChangePasswordView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+    # logica de troca e validacao
+"""
+
+
