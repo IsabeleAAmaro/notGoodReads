@@ -1,9 +1,3 @@
-from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render
-
-# Create your views here.
 from rest_framework import status
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -16,9 +10,11 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework.throttling import AnonRateThrottle
+from rest_framework.permissions import AllowAny
 
 
 class RegisterView(APIView):
+    permission_classes = [AllowAny]
 
     def post(self, request):
         serializer = CustomUserSerializer(data=request.data)
@@ -59,7 +55,7 @@ class UserProfileView(APIView):
     permission_classes = [IsAuthenticated, IsOwner]
 
     def get(self, request):
-        serializer = CustomUserSerializer(request.user)
+        serializer = CustomUserSerializer(request.user, context={'request': request})
         return Response(serializer.data)
 
     def patch(self, request):
@@ -69,8 +65,13 @@ class UserProfileView(APIView):
             partial=True,
             context={'request': request}
         )
+
         if serializer.is_valid():
             serializer.save()
+
+            # Recarrega o usuário do banco para garantir dados atualizados
+            request.user.refresh_from_db()
+
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -96,5 +97,3 @@ class ChangePasswordView(APIView):
     def post(self, request):
     # logica de troca e validacao
 """
-
-

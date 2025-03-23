@@ -8,27 +8,31 @@ User = get_user_model()
 
 class CustomUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, style={'input_type': 'password'})
-    # profile_picture = serializers.SerializerMethodField()
+    profile_picture_url = serializers.SerializerMethodField(read_only=True)
     profile_picture = serializers.ImageField(
-        allow_empty_file=False,
+        write_only=True,
         required=False,
-        write_only=True
+        allow_null=True
     )
 
     class Meta:
         model = User
-        fields = ('email', 'username', 'password', 'profile_picture', 'bio', 'total_pages')
+        fields = ('email', 'username', 'password', 'profile_picture_url', 'profile_picture', 'bio', 'total_pages')
         extra_kwargs = {
             'password': {'write_only': True},
-            'bio': {'required': False},
-            'profile_picture': {'read_only': True}
         }
 
-    def get_profile_picture(self, obj):
+    def get_profile_picture_url(self, obj):
         request = self.context.get('request')
         if obj.profile_picture:
             return request.build_absolute_uri(obj.profile_picture.url) if request else obj.profile_picture.url
         return None
+
+    def update(self, instance, validated_data):
+        profile_picture = validated_data.pop('profile_picture', None)
+        if profile_picture:
+            instance.profile_picture = profile_picture
+        return super().update(instance, validated_data)
 
     def update(self, instance, validated_data):
         if 'profile_picture' in validated_data:
@@ -50,11 +54,9 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         try:
             data = super().validate(attrs)
         except AuthenticationFailed:
-            # Registrar tentativa fracassada para throttling
             self.throttle_failed()
             raise
 
-        # Adicionar dados do usuário à resposta
         user_serializer = CustomUserSerializer(
             self.user,
             context=self.context
