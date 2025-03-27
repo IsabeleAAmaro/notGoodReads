@@ -1,1 +1,0 @@
-export { HeroiconsOutlineEye } from "./HeroiconsOutlineEye";
