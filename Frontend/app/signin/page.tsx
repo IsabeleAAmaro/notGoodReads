@@ -35,6 +35,7 @@ export default function SignInPage() {
       setIsLoading(true)
 
       // Login the user
+      // @ts-ignore
       const { access, user } = await loginUser(formData.username, formData.password)
 
       // Set the user in context

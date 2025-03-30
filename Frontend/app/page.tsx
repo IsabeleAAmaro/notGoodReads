@@ -17,7 +17,7 @@ export default function LandingPage() {
                     Track Your Reading Journey
                   </h1>
                   <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                    NGoodReads helps you keep track of your reading habits, discover new books, and connect with fellow
+                    NotGoodReads helps you keep track of your reading habits, discover new books, and connect with fellow
                     readers.
                   </p>
                 </div>
@@ -111,7 +111,7 @@ export default function LandingPage() {
       <footer className="border-t py-6 md:py-0">
         <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
           <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-            © 2024 NGoodReads. All rights reserved.
+            Isabele Araújo Amaro © Copyright 2025 - All rights reserved.
           </p>
         </div>
       </footer>

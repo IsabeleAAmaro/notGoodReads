@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     'dj_rest_auth',
     'dj_rest_auth.registration',
     'rest_framework_simplejwt.token_blacklist',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -132,8 +133,8 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '5/hour',  # Para login
-        'user': '1000/day'
+        'anon': '100/hour',  # 100 requisições/hora
+        'user': '10000/day'
     }
 }
 
@@ -143,11 +144,12 @@ REST_AUTH = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
-    'UPDATE_LAST_LOGIN': True,
+    'UPDATE_LAST_LOGIN': False,
     'ALGORITHM': 'HS256',
 }
 
@@ -175,10 +177,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Permitir todas as origens (NÃO recomendado para produção):
 CORS_ALLOW_ALL_ORIGINS = True
 
-# OU permitir origens específicas:
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Frontend React
-    "http://127.0.0.1:3000",
+    "http://localhost:3000",  # Porta padrão do Next.js
+    "http://127.0.0.1:3000"
 ]
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'optional'  # 'mandatory' para produção
+REST_USE_JWT = True  # Específico do dj-rest-auth
+JWT_AUTH_COOKIE = 'ngr-auth'  # Nome personalizado
 
 AUTH_USER_MODEL = 'users.CustomUser'

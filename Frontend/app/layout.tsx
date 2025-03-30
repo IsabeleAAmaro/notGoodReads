@@ -14,9 +14,9 @@ const spaceMono = Space_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "NGoodReads - Reading Tracker",
+  title: "NotGoodReads - Reading Tracker",
   description: "Track your reading journey",
-    generator: 'v0.dev'
+    generator: 'Isabele'
 }
 
 export default function RootLayout({

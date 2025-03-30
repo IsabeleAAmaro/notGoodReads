@@ -1,8 +1,8 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api"
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
 
-// Auth API calls
+// Auth API calls ==============================================================
 export async function loginUser(username: string, password: string) {
-  const response = await fetch(`${API_URL}/token/`, {
+  const response = await fetch(`${API_URL}/api/token/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -14,11 +14,31 @@ export async function loginUser(username: string, password: string) {
     throw new Error("Login failed")
   }
 
+  const data = await response.json()
+  return {
+    access: data.access,
+    refresh: data.refresh
+  }
+}
+
+export async function refreshToken(refresh: string) {
+  const response = await fetch(`${API_URL}/api/token/refresh/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ refresh }),
+  })
+
+  if (!response.ok) {
+    throw new Error("Token refresh failed")
+  }
+
   return response.json()
 }
 
 export async function registerUser(userData: any) {
-  const response = await fetch(`${API_URL}/users/`, {
+  const response = await fetch(`${API_URL}/api/auth/register/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -27,14 +47,15 @@ export async function registerUser(userData: any) {
   })
 
   if (!response.ok) {
-    throw new Error("Registration failed")
+    const errorData = await response.json()
+    throw new Error(errorData.detail || "Registration failed")
   }
 
   return response.json()
 }
 
 export async function getUserProfile(token: string) {
-  const response = await fetch(`${API_URL}/users/me/`, {
+  const response = await fetch(`${API_URL}/api/auth/profile/`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -48,7 +69,7 @@ export async function getUserProfile(token: string) {
 }
 
 export async function updateUserProfile(token: string, userData: any) {
-  const response = await fetch(`${API_URL}/users/me/`, {
+  const response = await fetch(`${API_URL}/api/auth/profile/`, {
     method: "PATCH",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -64,8 +85,23 @@ export async function updateUserProfile(token: string, userData: any) {
   return response.json()
 }
 
+export async function logoutUser(token: string) {
+  const response = await fetch(`${API_URL}/api/auth/logout/`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  if (!response.ok) {
+    throw new Error("Logout failed")
+  }
+
+  return true
+}
+
 export async function deleteUserAccount(token: string) {
-  const response = await fetch(`${API_URL}/users/me/`, {
+  const response = await fetch(`${API_URL}/api/auth/delete/`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -79,10 +115,10 @@ export async function deleteUserAccount(token: string) {
   return true
 }
 
-// Books API calls
+// Books API calls =============================================================
 export async function getBooks(token: string, params = {}) {
   const queryParams = new URLSearchParams(params as Record<string, string>).toString()
-  const url = `${API_URL}/books/${queryParams ? `?${queryParams}` : ""}`
+  const url = `${API_URL}/api/reading/books/${queryParams ? `?${queryParams}` : ""}`
 
   const response = await fetch(url, {
     headers: {
@@ -98,7 +134,7 @@ export async function getBooks(token: string, params = {}) {
 }
 
 export async function getBook(token: string, id: string) {
-  const response = await fetch(`${API_URL}/books/${id}/`, {
+  const response = await fetch(`${API_URL}/api/reading/books/${id}/`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -112,7 +148,7 @@ export async function getBook(token: string, id: string) {
 }
 
 export async function createBook(token: string, bookData: any) {
-  const response = await fetch(`${API_URL}/books/`, {
+  const response = await fetch(`${API_URL}/api/reading/books/`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -122,14 +158,15 @@ export async function createBook(token: string, bookData: any) {
   })
 
   if (!response.ok) {
-    throw new Error("Failed to create book")
+    const errorData = await response.json()
+    throw new Error(errorData.detail || "Failed to create book")
   }
 
   return response.json()
 }
 
 export async function updateBook(token: string, id: string, bookData: any) {
-  const response = await fetch(`${API_URL}/books/${id}/`, {
+  const response = await fetch(`${API_URL}/api/reading/books/${id}/`, {
     method: "PATCH",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -146,7 +183,7 @@ export async function updateBook(token: string, id: string, bookData: any) {
 }
 
 export async function deleteBook(token: string, id: string) {
-  const response = await fetch(`${API_URL}/books/${id}/`, {
+  const response = await fetch(`${API_URL}/api/reading/books/${id}/`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -160,3 +197,17 @@ export async function deleteBook(token: string, id: string) {
   return true
 }
 
+// New stats endpoint ==========================================================
+export async function getReadingStats(token: string) {
+  const response = await fetch(`${API_URL}/api/reading/stats/`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch reading stats")
+  }
+
+  return response.json()
+}
