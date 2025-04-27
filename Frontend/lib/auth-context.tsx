@@ -1,7 +1,5 @@
 "use client"
 
-import type React from "react"
-
 import { createContext, useContext, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 
@@ -31,34 +29,62 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter()
 
   useEffect(() => {
-    // Check if user is logged in on mount
-    const storedToken = localStorage.getItem("token")
-    const storedUser = localStorage.getItem("user")
+    const initializeAuth = () => {
+      try {
+        const storedToken = localStorage.getItem("token")
+        const storedUser = localStorage.getItem("user")
 
-    if (storedToken && storedUser) {
-      setToken(storedToken)
-      setUser(JSON.parse(storedUser))
+        if (storedToken && storedUser) {
+          // Verificação adicional para JSON válido
+          const parsedUser = JSON.parse(storedUser)
+          if (parsedUser && typeof parsedUser === 'object') {
+            setToken(storedToken)
+            setUser(parsedUser)
+          } else {
+            console.error('Dados de usuário inválidos no localStorage')
+            localStorage.removeItem("user")
+          }
+        }
+      } catch (error) {
+        console.error('Erro ao carregar dados de autenticação:', error)
+        localStorage.removeItem("token")
+        localStorage.removeItem("user")
+      } finally {
+        setIsLoading(false)
+      }
     }
 
-    setIsLoading(false)
+    initializeAuth()
   }, [])
 
   const login = (token: string, user: User) => {
-    localStorage.setItem("token", token)
-    localStorage.setItem("user", JSON.stringify(user))
-    setToken(token)
-    setUser(user)
+    try {
+      localStorage.setItem("token", token)
+      localStorage.setItem("user", JSON.stringify(user))
+      setToken(token)
+      setUser(user)
+    } catch (error) {
+      console.error('Erro ao salvar dados de autenticação:', error)
+    }
   }
 
   const logout = () => {
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
-    setToken(null)
-    setUser(null)
-    router.push("/")
+    try {
+      localStorage.removeItem("token")
+      localStorage.removeItem("user")
+      setToken(null)
+      setUser(null)
+      router.push("/")
+    } catch (error) {
+      console.error('Erro ao fazer logout:', error)
+    }
   }
 
-  return <AuthContext.Provider value={{ user, token, login, logout, isLoading }}>{children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={{ user, token, login, logout, isLoading }}>
+      {children}
+    </AuthContext.Provider>
+  )
 }
 
 export function useAuth() {
@@ -68,4 +94,3 @@ export function useAuth() {
   }
   return context
 }
-
