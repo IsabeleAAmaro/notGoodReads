@@ -24,7 +24,7 @@ export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("all")
 
   useEffect(() => {
-    if (!authLoading && !token) {
+    if (!token) {
       router.push("/signin")
       return
     }
@@ -32,7 +32,7 @@ export default function DashboardPage() {
     if (token) {
       fetchBooks()
     }
-  }, [token, authLoading, activeTab])
+  }, [token, activeTab])
 
   const fetchBooks = async () => {
     try {
@@ -120,7 +120,7 @@ export default function DashboardPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Header showSettings showLogout />
+      <Header />
       <main className="flex-1 p-4 md:p-6">
         <div className="container mx-auto max-w-6xl space-y-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -216,4 +216,3 @@ export default function DashboardPage() {
     </div>
   )
 }
-

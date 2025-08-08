@@ -1,0 +1,46 @@
+# Backend (Django)
+Backend/__pycache__/
+Backend/*/__pycache__/
+Backend/*/migrations/
+Backend/db.sqlite3
+Backend/.env
+Backend/*.pyc
+Backend/*.pyo
+Backend/*.mo
+Backend/staticfiles/
+
+# Frontend (Next.js)
+Frontend/.next/
+Frontend/node_modules/
+Frontend/out/
+Frontend/.env.local
+Frontend/.vercel
+Frontend/.cache
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-workspace
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Testes
+/coverage
+/.nyc_output
+
+# Ambiente
+.env
+.env.development
+.env.production
+.env.test

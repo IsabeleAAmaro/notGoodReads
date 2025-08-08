@@ -46,8 +46,6 @@ export default function SignInPage() {
         description: "Logged in successfully",
       })
 
-      // Redirect to dashboard
-      router.push("/dashboard")
     } catch (error) {
       toast({
         title: "Error",
@@ -108,4 +106,3 @@ export default function SignInPage() {
     </div>
   )
 }
-

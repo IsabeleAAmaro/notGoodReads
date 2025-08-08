@@ -168,7 +168,7 @@ export default function BookDetailsPage({ params }: { params: { id: string } }) 
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Header showDashboard showSettings showLogout />
+      <Header />
       <main className="flex-1 p-4 md:p-6">
         <div className="container mx-auto max-w-3xl space-y-6">
           {isEditing ? (
@@ -248,4 +248,3 @@ export default function BookDetailsPage({ params }: { params: { id: string } }) 
     </div>
   )
 }
-

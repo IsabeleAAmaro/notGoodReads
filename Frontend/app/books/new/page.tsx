@@ -16,10 +16,10 @@ export default function NewBookPage() {
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    if (!authLoading && !token) {
+    if (!token) {
       router.push("/signin")
     }
-  }, [token, authLoading, router])
+  }, [token, router])
 
   const handleSubmit = async (data: Partial<Book>) => {
     try {
@@ -50,7 +50,7 @@ export default function NewBookPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Header showDashboard showSettings showLogout />
+      <Header />
       <main className="flex-1 p-4 md:p-6">
         <div className="container mx-auto max-w-md space-y-6">
           <div className="space-y-2">
@@ -64,4 +64,3 @@ export default function NewBookPage() {
     </div>
   )
 }
-

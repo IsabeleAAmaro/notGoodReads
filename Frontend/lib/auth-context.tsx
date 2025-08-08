@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import Cookies from "js-cookie"
 
 type User = {
   id: string
@@ -31,24 +32,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const initializeAuth = () => {
       try {
-        const storedToken = localStorage.getItem("token")
+        const storedToken = Cookies.get("token")
         const storedUser = localStorage.getItem("user")
 
         if (storedToken && storedUser) {
-          // Verificação adicional para JSON válido
           const parsedUser = JSON.parse(storedUser)
-          if (parsedUser && typeof parsedUser === 'object') {
+          if (parsedUser && typeof parsedUser === "object") {
             setToken(storedToken)
             setUser(parsedUser)
           } else {
-            console.error('Dados de usuário inválidos no localStorage')
-            localStorage.removeItem("user")
+            console.error("Invalid user data in localStorage")
+            logout()
           }
         }
       } catch (error) {
-        console.error('Erro ao carregar dados de autenticação:', error)
-        localStorage.removeItem("token")
-        localStorage.removeItem("user")
+        console.error("Error loading authentication data:", error)
+        logout()
       } finally {
         setIsLoading(false)
       }
@@ -59,24 +58,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = (token: string, user: User) => {
     try {
-      localStorage.setItem("token", token)
-      localStorage.setItem("user", JSON.stringify(user))
+      Cookies.set("token", token, { expires: 7, path: "/" }) // Expires in 7 days
+      if (user) {
+        localStorage.setItem("user", JSON.stringify(user))
+      }
       setToken(token)
       setUser(user)
+      router.push("/dashboard")
     } catch (error) {
-      console.error('Erro ao salvar dados de autenticação:', error)
+      console.error("Error saving authentication data:", error)
     }
   }
 
   const logout = () => {
     try {
-      localStorage.removeItem("token")
+      Cookies.remove("token", { path: "/" })
       localStorage.removeItem("user")
       setToken(null)
       setUser(null)
       router.push("/")
     } catch (error) {
-      console.error('Erro ao fazer logout:', error)
+      console.error("Error logging out:", error)
     }
   }
 
