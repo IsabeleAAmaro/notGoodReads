@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useParams } from "next/navigation"
 import { Header } from "@/components/header"
 import { BookForm } from "@/components/book-form"
 import { Button } from "@/components/ui/button"
@@ -19,7 +19,9 @@ import { useAuth } from "@/lib/auth-context"
 import type { Book } from "@/lib/types"
 import { Edit, Trash2, Star } from "lucide-react"
 
-export default function BookDetailsPage({ params }: { params: { id: string } }) {
+export default function BookDetailsPage() {
+  const params = useParams()
+  const id = params.id as string
   const router = useRouter()
   const { toast } = useToast()
   const { token, isLoading: authLoading } = useAuth()
@@ -35,15 +37,15 @@ export default function BookDetailsPage({ params }: { params: { id: string } }) 
       return
     }
 
-    if (token) {
+    if (token && id) {
       fetchBook()
     }
-  }, [token, authLoading, params.id])
+  }, [token, authLoading, id])
 
   const fetchBook = async () => {
     try {
       setIsLoading(true)
-      const data = await getBook(token!, params.id)
+      const data = await getBook(token!, id)
       setBook(data)
     } catch (error) {
       toast({
@@ -64,7 +66,7 @@ export default function BookDetailsPage({ params }: { params: { id: string } }) 
   const handleUpdate = async (data: Partial<Book>) => {
     try {
       setIsSubmitting(true)
-      await updateBook(token!, params.id, data)
+      await updateBook(token!, id, data)
 
       toast({
         title: "Success",
@@ -87,7 +89,7 @@ export default function BookDetailsPage({ params }: { params: { id: string } }) 
   const handleDelete = async () => {
     try {
       setIsSubmitting(true)
-      await deleteBook(token!, params.id)
+      await deleteBook(token!, id)
 
       toast({
         title: "Success",

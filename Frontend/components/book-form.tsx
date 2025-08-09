@@ -43,9 +43,15 @@ export function BookForm({ initialData, onSubmit, isLoading }: BookFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
+    const statusMapping: { [key: string]: string } = {
+      "Want to Read": "QUERO_LER",
+      Reading: "LENDO",
+      Completed: "CONCLUIDO",
+    }
+
     const formattedData = {
       ...formData,
-      status: formData.status?.toUpperCase().replace(" ", "_"),
+      status: formData.status ? statusMapping[formData.status] : undefined,
     }
 
     onSubmit(formattedData as Partial<Book>)

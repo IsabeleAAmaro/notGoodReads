@@ -17,7 +17,8 @@ export async function loginUser(username: string, password: string) {
   const data = await response.json()
   return {
     access: data.access,
-    refresh: data.refresh
+    refresh: data.refresh,
+    user: data.user,
   }
 }
 

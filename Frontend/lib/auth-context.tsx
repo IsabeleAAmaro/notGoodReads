@@ -1,6 +1,12 @@
 "use client"
 
-import { createContext, useContext, useEffect, useState } from "react"
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react"
 import { useRouter } from "next/navigation"
 import Cookies from "js-cookie"
 
@@ -29,44 +35,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
 
-  useEffect(() => {
-    const initializeAuth = async () => {
-      const storedToken = Cookies.get("token")
-      if (storedToken) {
-        try {
-          // Verify token with the backend
-          const response = await fetch(
-            "http://localhost:8080/api/users/verify-token/",
-            {
-              headers: {
-                Authorization: `Bearer ${storedToken}`,
-              },
-            }
-          )
-
-          if (response.ok) {
-            const storedUser = localStorage.getItem("user")
-            if (storedUser) {
-              const parsedUser = JSON.parse(storedUser)
-              setToken(storedToken)
-              setUser(parsedUser)
-            } else {
-              logout()
-            }
-          } else {
-            // Token is invalid or expired
-            logout()
-          }
-        } catch (error) {
-          console.error("Error verifying token:", error)
-          logout()
-        }
-      }
-      setIsLoading(false)
+  const logout = useCallback(() => {
+    try {
+      Cookies.remove("token", { path: "/" })
+      localStorage.removeItem("user")
+      setToken(null)
+      setUser(null)
+      router.push("/")
+    } catch (error) {
+      console.error("Error logging out:", error)
     }
-
-    initializeAuth()
-  }, [])
+  }, [router])
 
   const login = (token: string, user: User) => {
     try {
@@ -82,17 +61,43 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const logout = () => {
-    try {
-      Cookies.remove("token", { path: "/" })
-      localStorage.removeItem("user")
-      setToken(null)
-      setUser(null)
-      router.push("/")
-    } catch (error) {
-      console.error("Error logging out:", error)
+  useEffect(() => {
+    const initializeAuth = async () => {
+      const storedToken = Cookies.get("token")
+      if (storedToken) {
+        try {
+          // Verify token with the backend
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/auth/verify-token/`,
+            {
+              headers: {
+                Authorization: `Bearer ${storedToken}`,
+              },
+            }
+          )
+
+          if (response.ok) {
+            const userData = await response.json()
+            setToken(storedToken)
+            setUser(userData)
+            localStorage.setItem("user", JSON.stringify(userData))
+          } else {
+            // Token is invalid or expired
+            logout()
+          }
+        } catch (error) {
+          console.error("Error verifying token:", error)
+          logout()
+        } finally {
+          setIsLoading(false)
+        }
+      } else {
+        setIsLoading(false)
+      }
     }
-  }
+
+    initializeAuth()
+  }, [router, logout])
 
   return (
     <AuthContext.Provider value={{ user, token, login, logout, isLoading }}>

@@ -35,11 +35,11 @@ export function Header() {
             <>
               <Link href="/signin">
                 <Button variant="ghost" className="font-mono">
-                  Sign In
+                  Entrar
                 </Button>
               </Link>
               <Link href="/signup">
-                <Button className="font-mono">Sign Up</Button>
+                <Button className="font-mono">Cadastre-se</Button>
               </Link>
             </>
           )}

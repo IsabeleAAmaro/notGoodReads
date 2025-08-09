@@ -94,7 +94,8 @@ class VerifyTokenView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        return Response(status=status.HTTP_200_OK)
+        serializer = CustomUserSerializer(request.user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 """  
