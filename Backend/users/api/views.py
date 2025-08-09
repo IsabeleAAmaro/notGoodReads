@@ -89,6 +89,14 @@ class DeleteUserView(APIView):
         )
 
 
+class VerifyTokenView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response(status=status.HTTP_200_OK)
+
+
 """  
 class ChangePasswordView(APIView):
     authentication_classes = [JWTAuthentication]

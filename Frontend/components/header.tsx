@@ -10,11 +10,15 @@ import { Button } from "@/components/ui/button"
 import { HeaderLink } from "./header-link"
 
 export function Header() {
-  const { user, logout } = useAuth()
+  const { user, logout, isLoading } = useAuth()
   const pathname = usePathname()
 
   const isBookPage =
     pathname.startsWith("/books/") || pathname.startsWith("/books/new")
+
+  if (isLoading) {
+    return null
+  }
 
   return (
     <header className="border-b border-border">

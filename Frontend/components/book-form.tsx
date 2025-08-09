@@ -22,7 +22,7 @@ export function BookForm({ initialData, onSubmit, isLoading }: BookFormProps) {
     author: "",
     genre: "",
     status: "Want to Read",
-    rating: 0,
+    rating: 0.5,
     notes: "",
     ...initialData,
   })
@@ -42,7 +42,13 @@ export function BookForm({ initialData, onSubmit, isLoading }: BookFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onSubmit(formData)
+
+    const formattedData = {
+      ...formData,
+      status: formData.status?.toUpperCase().replace(" ", "_"),
+    }
+
+    onSubmit(formattedData as Partial<Book>)
   }
 
   return (
@@ -113,7 +119,7 @@ export function BookForm({ initialData, onSubmit, isLoading }: BookFormProps) {
                   width="20"
                   height="20"
                   viewBox="0 0 24 24"
-                  fill={formData.rating >= rating ? "currentColor" : "none"}
+                  fill={formData.rating && formData.rating >= rating ? "currentColor" : "none"}
                   stroke="currentColor"
                   strokeWidth="2"
                   strokeLinecap="round"
@@ -136,12 +142,12 @@ export function BookForm({ initialData, onSubmit, isLoading }: BookFormProps) {
                   className="h-5 w-5"
                 >
                   <path d="M12 17.8 5.8 21 7 14.1 2 9.3l7-1L12 2" />
-                  <path fill={formData.rating >= rating ? "currentColor" : "none"} d="M12 2v15.8" />
+                  <path fill={formData.rating && formData.rating >= rating ? "currentColor" : "none"} d="M12 2v15.8" />
                 </svg>
               )}
             </button>
           ))}
-          <span className="ml-2 text-sm">{formData.rating.toFixed(1)}</span>
+          <span className="ml-2 text-sm">{formData.rating?.toFixed(1)}</span>
         </div>
       </div>
 
@@ -165,4 +171,3 @@ export function BookForm({ initialData, onSubmit, isLoading }: BookFormProps) {
     </form>
   )
 }
-

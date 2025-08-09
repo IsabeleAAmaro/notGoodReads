@@ -30,27 +30,39 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter()
 
   useEffect(() => {
-    const initializeAuth = () => {
-      try {
-        const storedToken = Cookies.get("token")
-        const storedUser = localStorage.getItem("user")
+    const initializeAuth = async () => {
+      const storedToken = Cookies.get("token")
+      if (storedToken) {
+        try {
+          // Verify token with the backend
+          const response = await fetch(
+            "http://localhost:8080/api/users/verify-token/",
+            {
+              headers: {
+                Authorization: `Bearer ${storedToken}`,
+              },
+            }
+          )
 
-        if (storedToken && storedUser) {
-          const parsedUser = JSON.parse(storedUser)
-          if (parsedUser && typeof parsedUser === "object") {
-            setToken(storedToken)
-            setUser(parsedUser)
+          if (response.ok) {
+            const storedUser = localStorage.getItem("user")
+            if (storedUser) {
+              const parsedUser = JSON.parse(storedUser)
+              setToken(storedToken)
+              setUser(parsedUser)
+            } else {
+              logout()
+            }
           } else {
-            console.error("Invalid user data in localStorage")
+            // Token is invalid or expired
             logout()
           }
+        } catch (error) {
+          console.error("Error verifying token:", error)
+          logout()
         }
-      } catch (error) {
-        console.error("Error loading authentication data:", error)
-        logout()
-      } finally {
-        setIsLoading(false)
       }
+      setIsLoading(false)
     }
 
     initializeAuth()
