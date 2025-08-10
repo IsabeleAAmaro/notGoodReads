@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Header } from "@/components/header"
@@ -23,18 +23,7 @@ export default function DashboardPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [activeTab, setActiveTab] = useState("all")
 
-  useEffect(() => {
-    if (!token) {
-      router.push("/signin")
-      return
-    }
-
-    if (token) {
-      fetchBooks()
-    }
-  }, [token, activeTab])
-
-  const fetchBooks = async () => {
+  const fetchBooks = useCallback(async () => {
     try {
       setIsLoading(true)
 
@@ -42,6 +31,10 @@ export default function DashboardPage() {
 
       if (activeTab !== "all") {
         params.status = activeTab
+      }
+
+      if (searchQuery) {
+        params.search = searchQuery
       }
 
       const data = await getBooks(token!, params)
@@ -55,13 +48,20 @@ export default function DashboardPage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [token, activeTab, searchQuery, toast])
 
-  const filteredBooks = books.filter(
-    (book) =>
-      book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      book.author.toLowerCase().includes(searchQuery.toLowerCase()),
-  )
+  useEffect(() => {
+    if (!token) {
+      router.push("/signin")
+      return
+    }
+
+    if (token) {
+      fetchBooks()
+    }
+  }, [token, fetchBooks])
+
+  const filteredBooks = books
 
   const getStatusColor = (status: string) => {
     switch (status) {

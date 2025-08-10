@@ -5,7 +5,6 @@ import {
   useContext,
   useEffect,
   useState,
-  useCallback,
 } from "react"
 import { useRouter } from "next/navigation"
 import Cookies from "js-cookie"
@@ -35,7 +34,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
 
-  const logout = useCallback(() => {
+  const logout = () => {
     try {
       Cookies.remove("token", { path: "/" })
       localStorage.removeItem("user")
@@ -45,7 +44,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       console.error("Error logging out:", error)
     }
-  }, [router])
+  }
 
   const login = (token: string, user: User) => {
     try {
@@ -97,7 +96,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     initializeAuth()
-  }, [router, logout])
+  }, [])
 
   return (
     <AuthContext.Provider value={{ user, token, login, logout, isLoading }}>

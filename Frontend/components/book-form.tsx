@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -17,15 +17,22 @@ type BookFormProps = {
 }
 
 export function BookForm({ initialData, onSubmit, isLoading }: BookFormProps) {
-  const [formData, setFormData] = useState<Partial<Book>>({
-    title: "",
-    author: "",
-    genre: "",
-    status: "Want to Read",
-    rating: 0.5,
-    notes: "",
-    ...initialData,
-  })
+  const [formData, setFormData] = useState<Partial<Book>>(
+    initialData || {
+      title: "",
+      author: "",
+      genre: "",
+      status: "Want to Read",
+      rating: 0.5,
+      notes: "",
+    },
+  )
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData(initialData)
+    }
+  }, [initialData])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target

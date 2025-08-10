@@ -29,11 +29,11 @@ export default function SettingsPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    first_name: "",
-    last_name: "",
-    bio: "",
+    username: user?.username || "",
+    email: user?.email || "",
+    first_name: user?.first_name || "",
+    last_name: user?.last_name || "",
+    bio: user?.bio || "",
   })
 
   useEffect(() => {
@@ -42,32 +42,18 @@ export default function SettingsPage() {
       return
     }
 
-    if (token) {
-      fetchUserProfile()
-    }
-  }, [token, authLoading])
-
-  const fetchUserProfile = async () => {
-    try {
-      setIsLoading(true)
-      const data = await getUserProfile(token!)
+    if (user) {
       setFormData({
-        username: data.username || "",
-        email: data.email || "",
-        first_name: data.first_name || "",
-        last_name: data.last_name || "",
-        bio: data.bio || "",
+        username: user.username || "",
+        email: user.email || "",
+        first_name: user.first_name || "",
+        last_name: user.last_name || "",
+        bio: user.bio || "",
       })
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to fetch user profile",
-        variant: "destructive",
-      })
-    } finally {
       setIsLoading(false)
     }
-  }
+  }, [user, authLoading, token, router])
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
