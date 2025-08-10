@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react"
 import { useRouter, useParams } from "next/navigation"
-import { Header } from "@/components/header"
 import { BookForm } from "@/components/book-form"
 import { Button } from "@/components/ui/button"
 import {
@@ -170,7 +169,6 @@ export default function BookDetailsPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
       <main className="flex-1 p-4 md:p-6">
         <div className="container mx-auto max-w-3xl space-y-6">
           {isEditing ? (

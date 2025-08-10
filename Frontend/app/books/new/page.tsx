@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { Header } from "@/components/header"
 import { BookForm } from "@/components/book-form"
 import { useToast } from "@/components/ui/use-toast"
 import { createBook } from "@/lib/api"
@@ -50,7 +49,6 @@ export default function NewBookPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
       <main className="flex-1 p-4 md:p-6">
         <div className="container mx-auto max-w-md space-y-6">
           <div className="space-y-2">

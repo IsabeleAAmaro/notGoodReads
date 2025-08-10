@@ -5,7 +5,6 @@ import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Header } from "@/components/header"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -59,7 +58,6 @@ export default function SignInPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
       <main className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-md space-y-6">
           <div className="space-y-2 text-center">

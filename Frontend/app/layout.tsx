@@ -2,9 +2,12 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { Space_Mono } from "next/font/google"
-import "./globals.css"
+
 import { AuthProvider } from "@/lib/auth-context"
+import { Header } from "@/components/header"
 import { Toaster } from "@/components/ui/toaster"
+
+import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"] })
 const spaceMono = Space_Mono({
@@ -28,6 +31,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${spaceMono.variable} font-mono`}>
         <AuthProvider>
+          <Header />
           {children}
           <Toaster />
         </AuthProvider>
@@ -35,7 +39,3 @@ export default function RootLayout({
     </html>
   )
 }
-
-
-
-import './globals.css'

@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Header } from "@/components/header"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -120,7 +119,6 @@ export default function DashboardPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
       <main className="flex-1 p-4 md:p-6">
         <div className="container mx-auto max-w-6xl space-y-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">

@@ -4,7 +4,6 @@ import type React from "react"
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { Header } from "@/components/header"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -114,7 +113,6 @@ export default function SettingsPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
       <main className="flex-1 p-4 md:p-6">
         <div className="container mx-auto max-w-md space-y-6">
           <div className="space-y-2">

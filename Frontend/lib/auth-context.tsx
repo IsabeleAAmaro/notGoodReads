@@ -40,7 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       localStorage.removeItem("user")
       setToken(null)
       setUser(null)
-      router.push("/")
+      window.location.href = "/"
     } catch (error) {
       console.error("Error logging out:", error)
     }
@@ -54,7 +54,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
       setToken(token)
       setUser(user)
-      router.push("/dashboard")
+      window.location.href = "/dashboard"
     } catch (error) {
       console.error("Error saving authentication data:", error)
     }
