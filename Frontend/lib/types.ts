@@ -3,7 +3,7 @@ export type Book = {
   title: string
   author: string
   genre: string
-  status: "Want to Read" | "Reading" | "Completed"
+  status: "Want to Read" | "Reading" | "Completed" | "QUERO_LER" | "LENDO" | "CONCLUIDO"
   rating: number
   notes: string
   created_at: string
@@ -18,4 +18,3 @@ export type User = {
   last_name: string
   bio: string
 }
-

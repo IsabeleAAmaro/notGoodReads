@@ -62,13 +62,29 @@ export default function DashboardPage() {
 
   const filteredBooks = books
 
+  const getStatusDisplay = (status: string) => {
+    switch (status) {
+      case "QUERO_LER":
+        return "Want to Read"
+      case "LENDO":
+        return "Reading"
+      case "CONCLUIDO":
+        return "Completed"
+      default:
+        return status
+    }
+  }
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Want to Read":
+      case "QUERO_LER":
         return "bg-secondary text-secondary-foreground"
       case "Reading":
+      case "LENDO":
         return "bg-primary text-primary-foreground"
       case "Completed":
+      case "CONCLUIDO":
         return "bg-accent text-accent-foreground"
       default:
         return "bg-muted text-muted-foreground"
@@ -138,9 +154,9 @@ export default function DashboardPage() {
             <Tabs defaultValue="all" className="w-full sm:w-auto" onValueChange={setActiveTab}>
               <TabsList>
                 <TabsTrigger value="all">All</TabsTrigger>
-                <TabsTrigger value="Want to Read">Want to Read</TabsTrigger>
-                <TabsTrigger value="Reading">Reading</TabsTrigger>
-                <TabsTrigger value="Completed">Completed</TabsTrigger>
+                <TabsTrigger value="QUERO_LER">Want to Read</TabsTrigger>
+                <TabsTrigger value="LENDO">Reading</TabsTrigger>
+                <TabsTrigger value="CONCLUIDO">Completed</TabsTrigger>
               </TabsList>
             </Tabs>
 
@@ -175,7 +191,7 @@ export default function DashboardPage() {
                       <div className="flex justify-between items-start">
                         <CardTitle className="line-clamp-1">{book.title}</CardTitle>
                         <div className={`px-2 py-1 text-xs rounded-full ${getStatusColor(book.status)}`}>
-                          {book.status}
+                          {getStatusDisplay(book.status)}
                         </div>
                       </div>
                     </CardHeader>
@@ -198,7 +214,7 @@ export default function DashboardPage() {
                 <p className="text-muted-foreground mb-4">
                   {activeTab === "all"
                     ? "You haven't added any books yet."
-                    : `You don't have any books with status "${activeTab}".`}
+                    : `You don't have any books with status "${getStatusDisplay(activeTab)}".`}
                 </p>
                 <Link href="/books/new">
                   <Button>

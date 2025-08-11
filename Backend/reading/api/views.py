@@ -15,7 +15,11 @@ class BookListCreateView(generics.ListCreateAPIView):
     ordering_fields = ['created_at', 'updated_at', 'rating']
 
     def get_queryset(self):
-        return Book.objects.filter(user=self.request.user)
+        queryset = Book.objects.filter(user=self.request.user)
+        status = self.request.query_params.get('status')
+        if status:
+            queryset = queryset.filter(status=status)
+        return queryset
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
