@@ -84,6 +84,34 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return user
 
 
+class ChangePasswordSerializer(serializers.Serializer):
+    current_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+    def validate_current_password(self, value):
+        user = self.context['request'].user
+        if not user.check_password(value):
+            raise serializers.ValidationError("Current password is not correct.")
+        return value
+
+    def validate_new_password(self, value):
+        password = value
+        if len(password) < 8:
+            raise serializers.ValidationError("Password must be at least 8 characters long.")
+        if not any(char.isupper() for char in password):
+            raise serializers.ValidationError("Password must contain at least one uppercase letter.")
+        if not any(char.islower() for char in password):
+            raise serializers.ValidationError("Password must contain at least one lowercase letter.")
+        if not any(char.isdigit() for char in password):
+            raise serializers.ValidationError("Password must contain at least one number.")
+        return value
+
+    def save(self, **kwargs):
+        user = self.context['request'].user
+        user.set_password(self.validated_data['new_password'])
+        user.save()
+
+
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         try:

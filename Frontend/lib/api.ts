@@ -123,6 +123,24 @@ export async function deleteUserAccount(token: string) {
   return true
 }
 
+export async function changePassword(token: string, current_password: any, new_password: any) {
+  const response = await fetch(`${API_URL}/api/auth/change-password/`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ current_password, new_password }),
+  })
+
+  if (!response.ok) {
+    const errorData = await response.json()
+    throw new Error(errorData.detail || "Failed to change password")
+  }
+
+  return response.json()
+}
+
 // Books API calls =============================================================
 export async function getBooks(token: string, params = {}) {
   const queryParams = new URLSearchParams(params as Record<string, string>).toString()
