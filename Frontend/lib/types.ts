@@ -1,9 +1,12 @@
+export type BookStatus = "Want to Read" | "Reading" | "Completed"
+export type BookStatusApi = "QUERO_LER" | "LENDO" | "CONCLUIDO"
+
 export type Book = {
   id: string
   title: string
   author: string
   genre: string
-  status: "Want to Read" | "Reading" | "Completed" | "QUERO_LER" | "LENDO" | "CONCLUIDO"
+  status: BookStatusApi
   rating: number
   notes: string
   created_at: string

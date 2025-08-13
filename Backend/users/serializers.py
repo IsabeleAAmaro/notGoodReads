@@ -17,7 +17,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('email', 'username', 'password', 'profile_picture_url', 'profile_picture', 'bio', 'total_pages')
+        fields = ('email', 'username', 'password', 'profile_picture_url', 'profile_picture', 'bio', 'total_pages', 'first_name', 'last_name')
         extra_kwargs = {
             'password': {'write_only': True},
         }
@@ -32,11 +32,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
         profile_picture = validated_data.pop('profile_picture', None)
         if profile_picture:
             instance.profile_picture = profile_picture
-        return super().update(instance, validated_data)
-
-    def update(self, instance, validated_data):
-        if 'profile_picture' in validated_data:
-            instance.profile_picture = validated_data.pop('profile_picture')
         return super().update(instance, validated_data)
 
     def create(self, validated_data):

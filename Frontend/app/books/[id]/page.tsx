@@ -16,6 +16,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { getBook, updateBook, deleteBook } from "@/lib/api"
 import { useAuth } from "@/lib/auth-context"
 import type { Book } from "@/lib/types"
+import { STATUS_API_TO_DISPLAY } from "@/lib/utils"
 import { Edit, Trash2, Star } from "lucide-react"
 
 export default function BookDetailsPage() {
@@ -193,7 +194,11 @@ export default function BookDetailsPage() {
               <div className="space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
                   <div className="text-lg">by {book.author}</div>
-                  <div className={`px-3 py-1 text-sm rounded-full ${getStatusColor(book.status)}`}>{book.status}</div>
+                  <div
+                    className={`px-3 py-1 text-sm rounded-full ${getStatusColor(STATUS_API_TO_DISPLAY[book.status])}`}
+                  >
+                    {STATUS_API_TO_DISPLAY[book.status]}
+                  </div>
                 </div>
 
                 <div className="flex items-center gap-2">

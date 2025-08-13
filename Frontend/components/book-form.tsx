@@ -8,7 +8,12 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import type { Book } from "@/lib/types"
+import type { Book, BookStatus } from "@/lib/types"
+import { STATUS_API_TO_DISPLAY, STATUS_DISPLAY_TO_API } from "@/lib/utils"
+
+type FormData = Omit<Partial<Book>, "status"> & {
+  status?: BookStatus
+}
 
 type BookFormProps = {
   initialData?: Partial<Book>
@@ -17,20 +22,23 @@ type BookFormProps = {
 }
 
 export function BookForm({ initialData, onSubmit, isLoading }: BookFormProps) {
-  const [formData, setFormData] = useState<Partial<Book>>(
-    initialData || {
-      title: "",
-      author: "",
-      genre: "",
-      status: "Want to Read",
-      rating: 0.5,
-      notes: "",
-    },
-  )
+  const [formData, setFormData] = useState<FormData>({
+    title: "",
+    author: "",
+    genre: "",
+    status: "Want to Read",
+    rating: 0.5,
+    notes: "",
+  })
 
   useEffect(() => {
     if (initialData) {
-      setFormData(initialData)
+      const initialStatus = initialData.status
+      const formattedData = {
+        ...initialData,
+        status: initialStatus ? STATUS_API_TO_DISPLAY[initialStatus] : "Want to Read",
+      }
+      setFormData(formattedData)
     }
   }, [initialData])
 
@@ -50,15 +58,9 @@ export function BookForm({ initialData, onSubmit, isLoading }: BookFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    const statusMapping: { [key: string]: string } = {
-      "Want to Read": "QUERO_LER",
-      Reading: "LENDO",
-      Completed: "CONCLUIDO",
-    }
-
     const formattedData = {
       ...formData,
-      status: formData.status ? statusMapping[formData.status] : undefined,
+      status: formData.status ? STATUS_DISPLAY_TO_API[formData.status] : undefined,
     }
 
     onSubmit(formattedData as Partial<Book>)
