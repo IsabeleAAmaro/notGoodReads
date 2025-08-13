@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -25,11 +25,49 @@ export default function SignUpPage() {
     password: "",
     password_confirm: "",
   })
+  const [emailError, setEmailError] = useState("")
+  const [passwordValidations, setPasswordValidations] = useState({
+    length: false,
+    uppercase: false,
+    lowercase: false,
+    number: false,
+  })
+  const [isFormValid, setIsFormValid] = useState(false)
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      setEmailError("Invalid email address")
+    } else {
+      setEmailError("")
+    }
+  }
+
+  const validatePassword = (password: string) => {
+    setPasswordValidations({
+      length: password.length >= 8,
+      uppercase: /[A-Z]/.test(password),
+      lowercase: /[a-z]/.test(password),
+      number: /\d/.test(password),
+    })
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+    if (name === "email") {
+      validateEmail(value)
+    }
+    if (name === "password") {
+      validatePassword(value)
+    }
   }
+
+  useEffect(() => {
+    const allPasswordValidationsMet = Object.values(passwordValidations).every(Boolean)
+    const allFieldsFilled = Object.values(formData).every((value) => value !== "")
+    setIsFormValid(emailError === "" && allPasswordValidationsMet && allFieldsFilled)
+  }, [formData, emailError, passwordValidations])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -53,6 +91,7 @@ export default function SignUpPage() {
         first_name: formData.first_name,
         last_name: formData.last_name,
         password: formData.password,
+        password_confirm: formData.password_confirm,
       })
 
       // Login the user after registration
@@ -133,7 +172,9 @@ export default function SignUpPage() {
                 required
                 value={formData.email}
                 onChange={handleChange}
+                onBlur={() => validateEmail(formData.email)}
               />
+              {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
@@ -145,6 +186,20 @@ export default function SignUpPage() {
                 value={formData.password}
                 onChange={handleChange}
               />
+              <div className="text-sm">
+                <p className={passwordValidations.length ? "text-green-500" : "text-red-500"}>
+                  - More than 8 characters
+                </p>
+                <p className={passwordValidations.uppercase ? "text-green-500" : "text-red-500"}>
+                  - Contains a capital letter
+                </p>
+                <p className={passwordValidations.lowercase ? "text-green-500" : "text-red-500"}>
+                  - Contains a lowercase letter
+                </p>
+                <p className={passwordValidations.number ? "text-green-500" : "text-red-500"}>
+                  - Contains a number
+                </p>
+              </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="password_confirm">Confirm Password</Label>
@@ -157,7 +212,7 @@ export default function SignUpPage() {
                 onChange={handleChange}
               />
             </div>
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="w-full" disabled={!isFormValid || isLoading}>
               {isLoading ? "Creating account..." : "Create account"}
             </Button>
           </form>

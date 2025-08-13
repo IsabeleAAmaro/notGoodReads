@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from ..permissions import IsOwner
-from ..serializers import CustomUserSerializer, CustomTokenObtainPairSerializer
+from ..serializers import CustomUserSerializer, CustomTokenObtainPairSerializer, UserRegistrationSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -17,7 +17,7 @@ class RegisterView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        serializer = CustomUserSerializer(data=request.data)
+        serializer = UserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
             return Response({
