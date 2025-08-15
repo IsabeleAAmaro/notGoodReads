@@ -17,6 +17,9 @@ const spaceMono = Space_Mono({
 })
 
 export const metadata: Metadata = {
+  icons: {
+    icon: '/favicon.ico',
+  },
   title: "NotGoodReads - Reading Tracker",
   description: "Track your reading journey",
     generator: 'Isabele'

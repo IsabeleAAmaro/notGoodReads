@@ -29,8 +29,8 @@ export default function LandingPage() {
               </div>
               <div className="flex items-center justify-center">
                 <div className="relative h-[350px] w-[350px] sm:h-[400px] sm:w-[400px] lg:h-[500px] lg:w-[500px]">
-                  <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-secondary">
-                    <BookOpen className="h-32 w-32 text-secondary-foreground" />
+                  <div className="absolute inset-0 flex items-center justify-center rounded-lg">
+                    <img src="/transhumans-new-beginnings-1.png"/>
                   </div>
                 </div>
               </div>
@@ -71,7 +71,7 @@ export default function LandingPage() {
                     strokeLinejoin="round"
                     className="h-6 w-6 text-secondary-foreground"
                   >
-                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                   </svg>
                 </div>
                 <h3 className="text-xl font-bold">Rate and Review</h3>
@@ -93,8 +93,8 @@ export default function LandingPage() {
                     strokeLinejoin="round"
                     className="h-6 w-6 text-accent-foreground"
                   >
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
                   </svg>
                 </div>
                 <h3 className="text-xl font-bold">Track Progress</h3>

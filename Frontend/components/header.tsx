@@ -27,7 +27,7 @@ export function Header() {
           href={user ? "/dashboard" : "/"}
           className="flex items-center gap-2"
         >
-          <BookOpen className="h-6 w-6" />
+          <img src="/logo-transparent2.png" className="h-8 w-8" />
           <span className="text-xl font-bold">NotGoodReads</span>
         </Link>
         <nav className="flex gap-4 sm:gap-6">
