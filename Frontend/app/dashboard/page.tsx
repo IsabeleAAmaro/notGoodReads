@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { Marquee } from "@/components/ui/marquee"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useToast } from "@/components/ui/use-toast"
 import { getBooks } from "@/lib/api"
@@ -160,7 +161,7 @@ export default function DashboardPage() {
               </TabsList>
             </Tabs>
 
-            <div className="relative w-full sm:w-64">
+            <div className="relative w-full sm:w-80">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
@@ -188,9 +189,15 @@ export default function DashboardPage() {
                 <Link href={`/books/${book.id}`} key={book.id}>
                   <Card className="h-full overflow-hidden transition-all hover:shadow-md">
                     <CardHeader className="p-4 pb-2">
-                      <div className="flex justify-between items-start">
-                        <CardTitle className="line-clamp-1">{book.title}</CardTitle>
-                        <div className={`px-2 py-1 text-xs rounded-full ${getStatusColor(book.status)}`}>
+                      <div className="flex justify-between items-start gap-2">
+                        <CardTitle className="flex-shrink overflow-hidden">
+                          <Marquee text={book.title} />
+                        </CardTitle>
+                        <div
+                          className={`px-2 py-1 text-xs rounded-full flex-shrink-0 ${getStatusColor(
+                            book.status,
+                          )}`}
+                        >
                           {getStatusDisplay(book.status)}
                         </div>
                       </div>
@@ -201,7 +208,7 @@ export default function DashboardPage() {
                         {renderStars(book.rating)}
                         <span className="ml-2 text-sm text-muted-foreground">{book.rating.toFixed(1)}</span>
                       </div>
-                      <div className="text-xs bg-muted inline-block px-2 py-1 rounded">{book.genre}</div>
+                      <div className="text-xs bg-accent inline-block px-2 py-1 rounded">{book.genre}</div>
                       {book.notes && <p className="mt-2 text-sm line-clamp-2">{book.notes}</p>}
                     </CardContent>
                   </Card>

@@ -206,7 +206,7 @@ export default function BookDetailsPage() {
                   <span className="text-muted-foreground">{book.rating.toFixed(1)}</span>
                 </div>
 
-                <div className="bg-muted inline-block px-3 py-1 rounded">{book.genre}</div>
+                <div className="bg-accent inline-block px-3 py-1 rounded">{book.genre}</div>
 
                 {book.notes && (
                   <div className="space-y-2">
