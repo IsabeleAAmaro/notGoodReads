@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { StarIcon } from "@/components/ui/star-icon"
 import { Textarea } from "@/components/ui/textarea"
 import type { Book, BookStatus } from "@/lib/types"
 import { STATUS_API_TO_DISPLAY, STATUS_DISPLAY_TO_API } from "@/lib/utils"
@@ -27,9 +28,10 @@ export function BookForm({ initialData, onSubmit, isLoading }: BookFormProps) {
     author: "",
     genre: "",
     status: "Want to Read",
-    rating: 0.5,
+    rating: 0,
     notes: "",
   })
+  const [hoverRating, setHoverRating] = useState<number | null>(null)
 
   useEffect(() => {
     if (initialData) {
@@ -120,48 +122,34 @@ export function BookForm({ initialData, onSubmit, isLoading }: BookFormProps) {
 
       <div className="space-y-2">
         <Label htmlFor="rating">Rating</Label>
-        <div className="flex items-center space-x-1">
-          {[0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].map((rating) => (
-            <button
-              key={rating}
-              type="button"
-              onClick={() => handleRatingChange(rating)}
-              className="focus:outline-none"
-            >
-              {rating % 1 === 0 ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill={formData.rating && formData.rating >= rating ? "currentColor" : "none"}
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="h-5 w-5"
-                >
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="h-5 w-5"
-                >
-                  <path d="M12 17.8 5.8 21 7 14.1 2 9.3l7-1L12 2" />
-                  <path fill={formData.rating && formData.rating >= rating ? "currentColor" : "none"} d="M12 2v15.8" />
-                </svg>
-              )}
-            </button>
-          ))}
+        <div
+          className="flex items-center space-x-1"
+          onMouseLeave={() => setHoverRating(null)}
+        >
+          {[1, 2, 3, 4, 5].map((star) => {
+            const currentRating = hoverRating ?? formData.rating ?? 0
+            const fill =
+              currentRating >= star ? "full" : currentRating >= star - 0.5 ? "half" : "none"
+
+            return (
+              <div
+                key={star}
+                className="relative"
+                onMouseEnter={() => setHoverRating(star)}
+                onClick={() => handleRatingChange(star)}
+              >
+                <div
+                  className="absolute inset-0 w-1/2"
+                  onMouseEnter={() => setHoverRating(star - 0.5)}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleRatingChange(star - 0.5)
+                  }}
+                />
+                <StarIcon fill={fill} />
+              </div>
+            )
+          })}
           <span className="ml-2 text-sm">{formData.rating?.toFixed(1)}</span>
         </div>
       </div>
