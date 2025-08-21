@@ -72,10 +72,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const value = { user, token, login, logout, isLoading }
 
   return (
-    <AuthContext.Provider value={value}>
-      {/* Só renderiza os filhos quando o carregamento inicial terminar */}
-      {!isLoading && children}
-    </AuthContext.Provider>
+  <AuthContext.Provider value={value}>
+    {children}
+  </AuthContext.Provider>
   )
 }
 
