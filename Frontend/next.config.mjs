@@ -1,8 +1,8 @@
-// Frontend/next.config.mjs
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Deixe este objeto vazio por enquanto
+  images: {
+    unoptimized: true,
+  },
 };
 
 export default nextConfig;
