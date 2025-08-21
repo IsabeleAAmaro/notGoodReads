@@ -14,6 +14,10 @@
     {
       "source": "/api/(.*)",
       "destination": "/api/index.py"
+    },
+    {
+      "source": "/((?!_next/|static/|images/|public/|favicon.ico|api/).*)",
+      "destination": "/Frontend"
     }
   ]
 }
