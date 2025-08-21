@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { BookOpen } from "lucide-react"
+import Image from "next/image"
 
 export default function LandingPage() {
   return (
@@ -30,7 +31,12 @@ export default function LandingPage() {
               <div className="flex items-center justify-center">
                 <div className="relative h-[350px] w-[350px] sm:h-[400px] sm:w-[400px] lg:h-[500px] lg:w-[500px]">
                   <div className="absolute inset-0 flex items-center justify-center rounded-lg">
-                    <img src="/transhumans-new-beginnings-1.png"/>
+                      <Image 
+                        src="/transhumans-new-beginnings-1.png" 
+                          alt="Abstract art representing new beginnings"
+                          width={800}
+                          height={698}
+                        />
                   </div>
                 </div>
               </div>
