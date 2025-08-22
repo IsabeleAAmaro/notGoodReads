@@ -5,7 +5,6 @@ import {
   useContext,
   useEffect,
   useState,
-  useCallback,
 } from "react"
 import { useRouter } from "next/navigation"
 import Cookies from "js-cookie"
@@ -32,49 +31,77 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [token, setToken] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(true) // Começa carregando
+  const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
 
-  const logout = useCallback(() => {
-    Cookies.remove("token")
-    localStorage.removeItem("user")
-    setToken(null)
-    setUser(null)
-    // Usa o router do Next.js para navegar, é mais seguro que window.location
-    router.push("/")
-  }, [router])
-
-  // Este useEffect só roda no cliente, após a montagem inicial
-  useEffect(() => {
-    const storedToken = Cookies.get("token")
-    const storedUser = localStorage.getItem("user")
-
-    if (storedToken && storedUser) {
-      try {
-        setUser(JSON.parse(storedUser))
-        setToken(storedToken)
-      } catch (e) {
-        console.error("Failed to parse stored user, logging out.")
-        logout()
-      }
+  const logout = () => {
+    try {
+      Cookies.remove("token", { path: "/" })
+      localStorage.removeItem("user")
+      setToken(null)
+      setUser(null)
+      window.location.href = "/"
+    } catch (error) {
+      console.error("Error logging out:", error)
     }
-    setIsLoading(false) // Termina o carregamento
-  }, [logout])
-
-  const login = (token: string, user: User) => {
-    Cookies.set("token", token, { expires: 7 })
-    localStorage.setItem("user", JSON.stringify(user))
-    setToken(token)
-    setUser(user)
-    router.push("/dashboard")
   }
 
-  const value = { user, token, login, logout, isLoading }
+  const login = (token: string, user: User) => {
+    try {
+      Cookies.set("token", token, { expires: 7, path: "/" }) // Expires in 7 days
+      if (user) {
+        localStorage.setItem("user", JSON.stringify(user))
+      }
+      setToken(token)
+      setUser(user)
+      window.location.href = "/dashboard"
+    } catch (error) {
+      console.error("Error saving authentication data:", error)
+    }
+  }
+
+  useEffect(() => {
+    const initializeAuth = async () => {
+      const storedToken = Cookies.get("token")
+      if (storedToken) {
+        try {
+          // Verify token with the backend
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/auth/verify-token/`,
+            {
+              headers: {
+                Authorization: `Bearer ${storedToken}`,
+              },
+            }
+          )
+
+          if (response.ok) {
+            const userData = await response.json()
+            setToken(storedToken)
+            setUser(userData)
+            localStorage.setItem("user", JSON.stringify(userData))
+          } else {
+            // Token is invalid or expired
+            logout()
+          }
+        } catch (error) {
+          console.error("Error verifying token:", error)
+          logout()
+        } finally {
+          setIsLoading(false)
+        }
+      } else {
+        setIsLoading(false)
+      }
+    }
+
+    initializeAuth()
+  }, [])
 
   return (
-  <AuthContext.Provider value={value}>
-    {children}
-  </AuthContext.Provider>
+    <AuthContext.Provider value={{ user, token, login, logout, isLoading }}>
+      {children}
+    </AuthContext.Provider>
   )
 }
 

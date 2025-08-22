@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
-import dj_database_url
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -22,12 +21,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-o!h8o^_t##&&y=c@&zl^h0qt%v=qfa)dxs1#gh5$a*i=qp$dod'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-o!h8o^_t##&&y=c@&zl^h0qt%v=qfa)dxs1#gh5$a*i=qp$dod')
+# ...
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = [".vercel.app", "127.0.0.1"]
+ALLOWED_HOSTS_STRING = os.environ.get('ALLOWED_HOSTS', '')
+ALLOWED_HOSTS = ALLOWED_HOSTS_STRING.split(',') if ALLOWED_HOSTS_STRING else []
 
 # Application definition
 
@@ -93,12 +94,32 @@ WSGI_APPLICATION = 'notGoodReads.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# settings.py
+
+if os.environ.get('GOOGLE_CLOUD_PROJECT', None):
+    # Ambiente de Produção (Google Cloud Run)
+    # Detecta que está na nuvem e usa o Firestore.
+    # A conexão é automática, não precisa de URL ou senha.
+    DATABASES = {
+        'default': {
+            'ENGINE': 'gcloudc.db.backends.datastore',
+            'PROJECT': os.environ.get('GOOGLE_CLOUD_PROJECT'),
+            # 'NAMESPACE': 'meu-app', # Opcional: para isolar dados se precisar
+        }
     }
-}
+else:
+    # Ambiente de Desenvolvimento (Sua Máquina Local)
+    # Usa o banco de dados PostgreSQL que você configurou no seu computador.
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'notgoodreads',
+            'USER': 'isabele',
+            'PASSWORD': 'djangopw',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -170,6 +191,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
