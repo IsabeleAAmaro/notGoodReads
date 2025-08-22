@@ -1,8 +1,12 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
+// Esta linha detecta se o código está rodando em produção (no servidor ou no navegador do site)
+const isProduction = process.env.NODE_ENV === 'production';
+
+// Se estiver em produção, usa a URL relativa. Se não, usa o localhost.
+const API_URL = isProduction ? "/api" : "http://localhost:8000/api";
 
 // Auth API calls ==============================================================
 export async function loginUser(username: string, password: string) {
-  const response = await fetch(`${API_URL}/api/token/`, {
+  const response = await fetch(`${API_URL}/token/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -23,7 +27,7 @@ export async function loginUser(username: string, password: string) {
 }
 
 export async function refreshToken(refresh: string) {
-  const response = await fetch(`${API_URL}/api/token/refresh/`, {
+  const response = await fetch(`${API_URL}/token/refresh/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -39,7 +43,7 @@ export async function refreshToken(refresh: string) {
 }
 
 export async function registerUser(userData: any) {
-  const response = await fetch(`${API_URL}/api/auth/register/`, {
+  const response = await fetch(`${API_URL}/auth/register/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -63,7 +67,7 @@ export async function registerUser(userData: any) {
 }
 
 export async function getUserProfile(token: string) {
-  const response = await fetch(`${API_URL}/api/auth/profile/`, {
+  const response = await fetch(`${API_URL}/auth/profile/`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -77,7 +81,7 @@ export async function getUserProfile(token: string) {
 }
 
 export async function updateUserProfile(token: string, userData: any) {
-  const response = await fetch(`${API_URL}/api/auth/profile/`, {
+  const response = await fetch(`${API_URL}/auth/profile/`, {
     method: "PATCH",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -94,7 +98,7 @@ export async function updateUserProfile(token: string, userData: any) {
 }
 
 export async function logoutUser(token: string) {
-  const response = await fetch(`${API_URL}/api/auth/logout/`, {
+  const response = await fetch(`${API_URL}/auth/logout/`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -109,7 +113,7 @@ export async function logoutUser(token: string) {
 }
 
 export async function deleteUserAccount(token: string) {
-  const response = await fetch(`${API_URL}/api/auth/delete/`, {
+  const response = await fetch(`${API_URL}/auth/delete/`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -124,7 +128,7 @@ export async function deleteUserAccount(token: string) {
 }
 
 export async function changePassword(token: string, current_password: any, new_password: any) {
-  const response = await fetch(`${API_URL}/api/auth/change-password/`, {
+  const response = await fetch(`${API_URL}/auth/change-password/`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -144,7 +148,7 @@ export async function changePassword(token: string, current_password: any, new_p
 // Books API calls =============================================================
 export async function getBooks(token: string, params = {}) {
   const queryParams = new URLSearchParams(params as Record<string, string>).toString()
-  const url = `${API_URL}/api/reading/books/${queryParams ? `?${queryParams}` : ""}`
+  const url = `${API_URL}/reading/books/${queryParams ? `?${queryParams}` : ""}`
 
   const response = await fetch(url, {
     headers: {
@@ -160,7 +164,7 @@ export async function getBooks(token: string, params = {}) {
 }
 
 export async function getBook(token: string, id: string) {
-  const response = await fetch(`${API_URL}/api/reading/books/${id}/`, {
+  const response = await fetch(`${API_URL}/reading/books/${id}/`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -174,7 +178,7 @@ export async function getBook(token: string, id: string) {
 }
 
 export async function createBook(token: string, bookData: any) {
-  const response = await fetch(`${API_URL}/api/reading/books/`, {
+  const response = await fetch(`${API_URL}/reading/books/`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -192,7 +196,7 @@ export async function createBook(token: string, bookData: any) {
 }
 
 export async function updateBook(token: string, id: string, bookData: any) {
-  const response = await fetch(`${API_URL}/api/reading/books/${id}/`, {
+  const response = await fetch(`${API_URL}/reading/books/${id}/`, {
     method: "PATCH",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -209,7 +213,7 @@ export async function updateBook(token: string, id: string, bookData: any) {
 }
 
 export async function deleteBook(token: string, id: string) {
-  const response = await fetch(`${API_URL}/api/reading/books/${id}/`, {
+  const response = await fetch(`${API_URL}/reading/books/${id}/`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -225,7 +229,7 @@ export async function deleteBook(token: string, id: string) {
 
 // New stats endpoint ==========================================================
 export async function getReadingStats(token: string) {
-  const response = await fetch(`${API_URL}/api/reading/stats/`, {
+  const response = await fetch(`${API_URL}/reading/stats/`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
